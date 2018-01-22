@@ -28,15 +28,14 @@ jobs:
             sdkmanager "platforms;android-23"
             sdkmanager "platforms;android-24"
             sdkmanager "platforms;android-25"
-            sdkmanager "platforms;android-26"
             sdkmanager "build-tools;27.0.3"
             sdkmanager "extras;android;m2repository"
             sdkmanager "extras;google;m2repository"
             sdkmanager "extras;google;google_play_services"
-            sdkmanager "system-images;android-25;default;armeabi-v7a"
+            sdkmanager "system-images;android-21;default;armeabi-v7a"
       - run:
           name: Setup emulator
-          command: echo "no" | avdmanager create avd -n test -k "system-images;android-25;default;armeabi-v7a"
+          command: echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;armeabi-v7a"
       - run:
           name: Launch emulator
           command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
