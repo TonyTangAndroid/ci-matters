@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-27-alpha
     environment:
       JVM_OPTS: -Xmx3200m
       ADB_INSTALL_TIMEOUT: 10
@@ -23,18 +23,21 @@ jobs:
           name: Install Android dependencies
           command: |
             sdkmanager "platform-tools"
-            sdkmanager "platforms;android-15"
             sdkmanager "platforms;android-21"
             sdkmanager "platforms;android-22"
+            sdkmanager "platforms;android-23"
+            sdkmanager "platforms;android-24"
             sdkmanager "platforms;android-25"
-            sdkmanager "build-tools;24.0.3"
+            sdkmanager "platforms;android-26"
+            sdkmanager "platforms;android-27"
+            sdkmanager "build-tools;27.0.3"
             sdkmanager "extras;android;m2repository"
             sdkmanager "extras;google;m2repository"
             sdkmanager "extras;google;google_play_services"
-            sdkmanager "system-images;android-21;default;armeabi-v7a"
+            sdkmanager "system-images;android-27;default;armeabi-v7a"
       - run:
           name: Setup emulator
-          command: echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;armeabi-v7a"
+          command: echo "no" | avdmanager create avd -n test -k "system-images;android-27;default;armeabi-v7a"
       - run:
           name: Launch emulator
           command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
