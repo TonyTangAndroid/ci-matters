@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 apply from: 'config/quality.gradle'
 apply from: 'config/jacoco.gradle'
 apply from: 'config/coveralls.gradle'
@@ -38,36 +37,6 @@ def getVersionName = { ->
     return name
 }
 
-def getFabricApiKey = { ->
-    def noKey = "0000000000000000000000000000000000000000"
-    def key = project.hasProperty('fabricApiKey') ? fabricApiKey.toString() :
-            System.getenv("FABRIC_API_KEY") ?: noKey
-    if (key == noKey)
-        println "Fabric API key not found"
-    else
-        println "Fabric API key found"
-    return key
-}
-
-def getFabricApiSecret = { ->
-    def secret = project.hasProperty('fabricApiSecret') ? fabricApiSecret.toString() :
-            System.getenv("FABRIC_API_SECRET") ?: ""
-    if (secret.isEmpty())
-        println "Fabric API Secret not found"
-    else
-        println "Fabric API Secret found"
-    return secret
-}
-
-task fabricProperties() {
-    description "Generate fabric.properties file with apiSecret"
-    ant.propertyfile(file: "$projectDir/fabric.properties") {
-        entry(key: "apiSecret", value: getFabricApiSecret())
-    }
-}
-
-preBuild.dependsOn('fabricProperties')
-
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.3"
@@ -78,10 +47,6 @@ android {
         versionCode getVersionCode()
         versionName getVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        manifestPlaceholders = [
-                fabricApiKey: getFabricApiKey()
-        ]
     }
     buildTypes {
         debug {
@@ -102,18 +67,11 @@ android {
     }
 }
 
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:design:25.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

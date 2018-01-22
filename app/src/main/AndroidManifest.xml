@@ -12,10 +12,6 @@
             android:theme="@style/AppTheme"
             android:name=".CiMattersApplication">
 
-        <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="${fabricApiKey}" />
-
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
