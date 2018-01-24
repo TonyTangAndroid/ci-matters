@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -32,10 +32,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setTitle(getString(R.string.activity_login));
         ButterKnife.bind(this);
         presenter = new LoginPresenter(this);
+        buttonLogin.setOnClickListener(this::onLoginClick);
     }
 
-    @OnClick(R.id.button_login)
-    public void onLoginClick() {
+    public void onLoginClick(View view) {
         presenter.onLoginClick(
                 editTextEmail.getText().toString(),
                 editTextPassword.getText().toString()
